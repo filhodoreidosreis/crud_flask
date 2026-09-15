@@ -1,0 +1,132 @@
+{% extends "base.html" %}
+{% block title %}Dashboard - Sistema Escolar{% endblock %}
+{% block content %}
+
+<h3 class="mb-4 fw-bold"><i class="bi bi-speedometer2"></i> Visão Geral</h3>
+
+<div class="row g-3 mb-4">
+    <div class="col-6 col-lg-3">
+        <div class="stat-card bg-alunos">
+            <i class="bi bi-people-fill icon-bg"></i>
+            <div class="valor">{{ total_alunos }}</div>
+            <div class="rotulo">Alunos</div>
+        </div>
+    </div>
+    <div class="col-6 col-lg-3">
+        <div class="stat-card bg-professores">
+            <i class="bi bi-person-workspace icon-bg"></i>
+            <div class="valor">{{ total_professores }}</div>
+            <div class="rotulo">Professores</div>
+        </div>
+    </div>
+    <div class="col-6 col-lg-3">
+        <div class="stat-card bg-disciplinas">
+            <i class="bi bi-journal-bookmark-fill icon-bg"></i>
+            <div class="valor">{{ total_disciplinas }}</div>
+            <div class="rotulo">Disciplinas</div>
+        </div>
+    </div>
+    <div class="col-6 col-lg-3">
+        <div class="stat-card bg-matriculas">
+            <i class="bi bi-journal-check icon-bg"></i>
+            <div class="valor">{{ total_matriculas }}</div>
+            <div class="rotulo">Matrículas</div>
+        </div>
+    </div>
+</div>
+
+<div class="row g-3 mb-4">
+    <div class="col-lg-6">
+        <div class="card card-suave p-3 h-100">
+            <h6 class="fw-bold mb-3"><i class="bi bi-bar-chart-fill"></i> Alunos por Turma</h6>
+            <canvas id="graficoTurmas" height="180"></canvas>
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <div class="card card-suave p-3 h-100">
+            <h6 class="fw-bold mb-3"><i class="bi bi-pie-chart-fill"></i> Carga Horária por Disciplina</h6>
+            <canvas id="graficoDisciplinas" height="180"></canvas>
+        </div>
+    </div>
+</div>
+
+<div class="row g-3">
+    <div class="col-lg-6">
+        <div class="card card-suave p-3 h-100">
+            <h6 class="fw-bold mb-3"><i class="bi bi-person-plus-fill"></i> Últimos Alunos Cadastrados</h6>
+            {% if ultimos_alunos|length == 0 %}
+                <div class="empty-state"><i class="bi bi-inbox"></i><p>Nenhum aluno cadastrado.</p></div>
+            {% else %}
+                <ul class="list-group list-group-flush">
+                {% for a in ultimos_alunos %}
+                    <li class="list-group-item d-flex align-items-center gap-3">
+                        <img src="{{ a.foto }}" class="avatar-sm" alt="{{ a.nome }}">
+                        <div>
+                            <div class="fw-semibold">{{ a.nome }}</div>
+                            <span class="badge-turma">{{ a.turma }}</span>
+                        </div>
+                        <a href="{{ url_for('alunos.perfil', id=a.id) }}" class="btn btn-sm btn-outline-primary ms-auto">Ver perfil</a>
+                    </li>
+                {% endfor %}
+                </ul>
+            {% endif %}
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <div class="card card-suave p-3 h-100">
+            <h6 class="fw-bold mb-3"><i class="bi bi-clock-fill"></i> Próximos Horários</h6>
+            {% if proximos_horarios|length == 0 %}
+                <div class="empty-state"><i class="bi bi-calendar-x"></i><p>Nenhum horário cadastrado.</p></div>
+            {% else %}
+                <ul class="list-group list-group-flush">
+                {% for h in proximos_horarios %}
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <div>
+                            <div class="fw-semibold">{{ h.disciplina_nome }}</div>
+                            <small class="text-muted">{{ h.dia_semana }} &middot; {{ h.sala }}</small>
+                        </div>
+                        <span class="badge bg-primary rounded-pill">{{ h.hora_inicio }} - {{ h.hora_fim }}</span>
+                    </li>
+                {% endfor %}
+                </ul>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+    const ctxTurmas = document.getElementById('graficoTurmas');
+    new Chart(ctxTurmas, {
+        type: 'bar',
+        data: {
+            labels: [{% for t in alunos_por_turma %}"{{ t.turma }}",{% endfor %}],
+            datasets: [{
+                label: 'Alunos',
+                data: [{% for t in alunos_por_turma %}{{ t.qtd }},{% endfor %}],
+                backgroundColor: '#3b82f6',
+                borderRadius: 8,
+            }]
+        },
+        options: {
+            plugins: { legend: { display: false } },
+            scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } }
+        }
+    });
+
+    const ctxDisc = document.getElementById('graficoDisciplinas');
+    new Chart(ctxDisc, {
+        type: 'doughnut',
+        data: {
+            labels: [{% for d in disciplinas_carga %}"{{ d.nome }}",{% endfor %}],
+            datasets: [{
+                data: [{% for d in disciplinas_carga %}{{ d.carga_horaria }},{% endfor %}],
+                backgroundColor: ['#3b82f6','#7c3aed','#10b981','#f59e0b','#ec4899','#06b6d4'],
+            }]
+        },
+        options: { plugins: { legend: { position: 'bottom' } } }
+    });
+</script>
+{% endblock %}

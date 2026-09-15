@@ -1,0 +1,172 @@
+:root {
+    --azul-escuro: #1e293b;
+    --azul: #3b82f6;
+    --roxo: #7c3aed;
+    --verde: #10b981;
+    --laranja: #f59e0b;
+    --rosa: #ec4899;
+    --fundo: #f1f5f9;
+}
+
+* { font-family: 'Poppins', sans-serif; }
+
+body {
+    background: var(--fundo);
+}
+
+.navbar {
+    background: linear-gradient(90deg, var(--azul-escuro), #0f172a);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+}
+
+.navbar-brand {
+    font-weight: 700;
+    font-size: 1.3rem;
+}
+
+.nav-link {
+    font-weight: 500;
+    padding: 0.5rem 1rem !important;
+    border-radius: 8px;
+    transition: all 0.2s;
+}
+
+.nav-link:hover, .nav-link.active {
+    background: rgba(255,255,255,0.12);
+    color: #fff !important;
+}
+
+/* Cards do dashboard */
+.stat-card {
+    border: none;
+    border-radius: 16px;
+    padding: 1.5rem;
+    color: #fff;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+    transition: transform 0.2s;
+    position: relative;
+    overflow: hidden;
+}
+
+.stat-card:hover { transform: translateY(-4px); }
+
+.stat-card .icon-bg {
+    position: absolute;
+    right: -10px;
+    bottom: -10px;
+    font-size: 5rem;
+    opacity: 0.18;
+}
+
+.stat-card.bg-alunos { background: linear-gradient(135deg, #3b82f6, #2563eb); }
+.stat-card.bg-professores { background: linear-gradient(135deg, #7c3aed, #6d28d9); }
+.stat-card.bg-disciplinas { background: linear-gradient(135deg, #10b981, #059669); }
+.stat-card.bg-matriculas { background: linear-gradient(135deg, #f59e0b, #d97706); }
+
+.stat-card .valor { font-size: 2.2rem; font-weight: 700; }
+.stat-card .rotulo { font-size: 0.95rem; opacity: 0.9; }
+
+/* Cards genéricos */
+.card-suave {
+    border: none;
+    border-radius: 14px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+}
+
+.avatar-sm {
+    width: 40px; height: 40px; border-radius: 50%;
+    object-fit: cover; border: 2px solid #fff;
+    box-shadow: 0 0 0 1px #e2e8f0;
+}
+
+.avatar-lg {
+    width: 110px; height: 110px; border-radius: 50%;
+    object-fit: cover; border: 4px solid #fff;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.15);
+}
+
+.avatar-md {
+    width: 64px; height: 64px; border-radius: 50%;
+    object-fit: cover; border: 3px solid #fff;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+}
+
+/* Cards de alunos/professores em grid */
+.pessoa-card {
+    border: none;
+    border-radius: 16px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+    transition: transform 0.2s, box-shadow 0.2s;
+    overflow: hidden;
+}
+
+.pessoa-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 24px rgba(0,0,0,0.12);
+}
+
+.pessoa-card .card-header-color {
+    height: 60px;
+    background: linear-gradient(120deg, var(--azul), var(--roxo));
+}
+
+.badge-turma {
+    background: #e0e7ff; color: #4338ca;
+    font-weight: 600; padding: 0.4em 0.8em;
+    border-radius: 20px;
+}
+
+/* Grade de horários */
+.grade-dia {
+    border-radius: 14px;
+    background: #fff;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+    min-height: 320px;
+}
+
+.grade-dia .dia-titulo {
+    background: linear-gradient(120deg, var(--azul-escuro), #334155);
+    color: #fff;
+    border-radius: 14px 14px 0 0;
+    padding: 0.7rem;
+    font-weight: 600;
+    text-align: center;
+}
+
+.aula-bloco {
+    border-radius: 10px;
+    padding: 0.6rem 0.8rem;
+    margin: 0.6rem;
+    font-size: 0.85rem;
+    border-left: 4px solid var(--azul);
+    background: #eff6ff;
+}
+.aula-bloco.cor-1 { border-color: var(--azul); background: #eff6ff; }
+.aula-bloco.cor-2 { border-color: var(--roxo); background: #f5f3ff; }
+.aula-bloco.cor-3 { border-color: var(--verde); background: #ecfdf5; }
+.aula-bloco.cor-4 { border-color: var(--laranja); background: #fffbeb; }
+.aula-bloco.cor-5 { border-color: var(--rosa); background: #fdf2f8; }
+
+.aula-bloco .horario { font-weight: 700; }
+
+/* Botões */
+.btn-acao {
+    border-radius: 8px;
+    font-weight: 500;
+}
+
+.form-control, .form-select {
+    border-radius: 8px;
+}
+
+.search-box {
+    border-radius: 30px;
+    padding-left: 1.2rem;
+}
+
+.empty-state {
+    text-align: center;
+    padding: 3rem 1rem;
+    color: #94a3b8;
+}
+.empty-state i { font-size: 3rem; }

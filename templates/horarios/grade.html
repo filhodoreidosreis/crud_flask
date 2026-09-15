@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}Grade de Horários - Sistema Escolar{% endblock %}
+{% block content %}
+
+<div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-4">
+    <h3 class="fw-bold mb-0"><i class="bi bi-grid-3x3-gap-fill"></i> Grade de Horários</h3>
+    <div class="d-flex gap-2">
+        <a href="{{ url_for('horarios.listar') }}" class="btn btn-outline-secondary btn-acao">
+            <i class="bi bi-list-ul"></i> Ver em Lista
+        </a>
+        <a href="{{ url_for('horarios.novo') }}" class="btn btn-primary btn-acao">
+            <i class="bi bi-plus-circle"></i> Novo Horário
+        </a>
+    </div>
+</div>
+
+<div class="row g-3">
+    {% for dia in dias %}
+    <div class="col-md-6 col-lg-4 col-xl-2">
+        <div class="grade-dia">
+            <div class="dia-titulo">{{ dia }}</div>
+            {% if grade_dados[dia]|length == 0 %}
+                <p class="text-center text-muted small mt-4">Sem aulas</p>
+            {% else %}
+                {% for h in grade_dados[dia] %}
+                <div class="aula-bloco cor-{{ loop.index0 % 5 + 1 }}">
+                    <div class="horario">{{ h.hora_inicio }} - {{ h.hora_fim }}</div>
+                    <div>{{ h.disciplina_nome }}</div>
+                    <div class="text-muted">{{ h.professor_nome or '-' }}</div>
+                    <div class="text-muted"><i class="bi bi-geo-alt"></i> {{ h.sala }}</div>
+                </div>
+                {% endfor %}
+            {% endif %}
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+{% endblock %}

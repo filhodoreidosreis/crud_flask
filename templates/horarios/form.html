@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% block title %}{{ titulo }} - Sistema Escolar{% endblock %}
+{% block content %}
+
+<div class="row justify-content-center">
+    <div class="col-lg-6">
+        <div class="card card-suave p-4">
+            <h4 class="fw-bold mb-4"><i class="bi bi-calendar-plus"></i> {{ titulo }}</h4>
+
+            <form method="POST">
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">Disciplina</label>
+                    <select name="disciplina_id" class="form-select" required>
+                        <option value="">-- Selecione --</option>
+                        {% for d in disciplinas %}
+                        <option value="{{ d.id }}" {{ 'selected' if horario and horario.disciplina_id == d.id }}>
+                            {{ d.nome }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">Dia da semana</label>
+                    <select name="dia_semana" class="form-select" required>
+                        <option value="">-- Selecione --</option>
+                        {% for dia in dias %}
+                        <option value="{{ dia }}" {{ 'selected' if horario and horario.dia_semana == dia }}>{{ dia }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-semibold">Horário de início</label>
+                        <input type="time" name="hora_inicio" class="form-control" required
+                               value="{{ horario.hora_inicio if horario else '' }}">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-semibold">Horário de término</label>
+                        <input type="time" name="hora_fim" class="form-control" required
+                               value="{{ horario.hora_fim if horario else '' }}">
+                    </div>
+                </div>
+
+                <div class="mb-4">
+                    <label class="form-label fw-semibold">Sala / Local</label>
+                    <input type="text" name="sala" class="form-control" required
+                           value="{{ horario.sala if horario else '' }}" placeholder="Ex: Sala 101 ou Lab 02">
+                </div>
+
+                <div class="d-flex gap-2">
+                    <button type="submit" class="btn btn-primary btn-acao px-4">
+                        <i class="bi bi-check-circle"></i> Salvar
+                    </button>
+                    <a href="{{ url_for('horarios.listar') }}" class="btn btn-outline-secondary btn-acao px-4">Cancelar</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

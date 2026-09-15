@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% block title %}Disciplinas - Sistema Escolar{% endblock %}
+{% block content %}
+
+<div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-4">
+    <h3 class="fw-bold mb-0"><i class="bi bi-journal-bookmark-fill"></i> Disciplinas</h3>
+    <a href="{{ url_for('disciplinas.novo') }}" class="btn btn-primary btn-acao">
+        <i class="bi bi-plus-circle"></i> Nova Disciplina
+    </a>
+</div>
+
+{% if disciplinas|length == 0 %}
+    <div class="empty-state">
+        <i class="bi bi-journal-x"></i>
+        <p>Nenhuma disciplina cadastrada.</p>
+    </div>
+{% else %}
+<div class="card card-suave p-3">
+    <div class="table-responsive">
+        <table class="table align-middle mb-0">
+            <thead>
+                <tr class="text-muted small text-uppercase">
+                    <th>Disciplina</th>
+                    <th>Carga horária</th>
+                    <th>Professor responsável</th>
+                    <th class="text-end">Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for d in disciplinas %}
+                <tr>
+                    <td class="fw-semibold">{{ d.nome }}</td>
+                    <td><span class="badge bg-primary-subtle text-primary-emphasis">{{ d.carga_horaria }}h</span></td>
+                    <td>
+                        {% if d.professor_nome %}
+                        <div class="d-flex align-items-center gap-2">
+                            <img src="{{ d.professor_foto }}" class="avatar-sm" alt="{{ d.professor_nome }}">
+                            {{ d.professor_nome }}
+                        </div>
+                        {% else %}
+                            <span class="text-muted">Não atribuído</span>
+                        {% endif %}
+                    </td>
+                    <td class="text-end">
+                        <a href="{{ url_for('disciplinas.editar', id=d.id) }}" class="btn btn-sm btn-outline-primary btn-acao">
+                            <i class="bi bi-pencil"></i>
+                        </a>
+                        <form action="{{ url_for('disciplinas.excluir', id=d.id) }}" method="POST" class="d-inline"
+                              onsubmit="return confirm('Excluir a disciplina {{ d.nome }}?');">
+                            <button type="submit" class="btn btn-sm btn-outline-danger btn-acao">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endif %}
+
+{% endblock %}

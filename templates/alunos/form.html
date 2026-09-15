@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% block title %}{{ titulo }} - Sistema Escolar{% endblock %}
+{% block content %}
+
+<div class="row justify-content-center">
+    <div class="col-lg-6">
+        <div class="card card-suave p-4">
+            <h4 class="fw-bold mb-4"><i class="bi bi-person-plus"></i> {{ titulo }}</h4>
+
+            {% if aluno %}
+            <div class="text-center mb-3">
+                <img src="{{ aluno.foto }}" class="avatar-lg" alt="foto atual">
+            </div>
+            {% endif %}
+
+            <form method="POST">
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">Nome completo</label>
+                    <input type="text" name="nome" class="form-control" required
+                           value="{{ aluno.nome if aluno else '' }}" placeholder="Ex: João Pedro Silva">
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-semibold">Idade</label>
+                        <input type="number" name="idade" min="1" class="form-control" required
+                               value="{{ aluno.idade if aluno else '' }}">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-semibold">Turma</label>
+                        <input type="text" name="turma" class="form-control" required
+                               value="{{ aluno.turma if aluno else '' }}" placeholder="Ex: ADS-2A">
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">E-mail</label>
+                    <input type="email" name="email" class="form-control" required
+                           value="{{ aluno.email if aluno else '' }}" placeholder="aluno@email.com">
+                </div>
+
+                <div class="mb-4">
+                    <label class="form-label fw-semibold">URL da foto <span class="text-muted fw-normal">(opcional)</span></label>
+                    <input type="url" name="foto" class="form-control"
+                           value="{{ aluno.foto if aluno else '' }}" placeholder="Deixe em branco para gerar automaticamente">
+                </div>
+
+                <div class="d-flex gap-2">
+                    <button type="submit" class="btn btn-primary btn-acao px-4">
+                        <i class="bi bi-check-circle"></i> Salvar
+                    </button>
+                    <a href="{{ url_for('alunos.listar') }}" class="btn btn-outline-secondary btn-acao px-4">Cancelar</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
